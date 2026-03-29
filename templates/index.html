@@ -12,10 +12,16 @@
 
     <!-- Header -->
     <header>
-        <div class="header-content">
-            <h1>🛡️ Network Intrusion Detection System</h1>
-            <p>Powered by Machine Learning — Random Forest & SVM</p>
+        <div class="header-left">
+            <div class="header-logo">
+                <div class="header-logo-inner"></div>
+            </div>
+            <div>
+                <h1>Network Intrusion Detection System</h1>
+                <p>Powered by Machine Learning — Random Forest & SVM</p>
+            </div>
         </div>
+        <div class="header-badge">ML POWERED</div>
     </header>
 
     <!-- Main Container -->
@@ -36,136 +42,197 @@
             </div>
         </div>
 
-        <!-- Input Form -->
+        <!-- Tab Selector -->
         <div class="card">
-            <h2>📋 Network Connection Details</h2>
-            <p class="subtitle">Enter the network connection features below</p>
-
-            <div class="form-grid">
-
-                <!-- Basic Features -->
-                <div class="form-section">
-                    <h3>🔌 Basic Features</h3>
-                    <div class="input-group">
-                        <label>Protocol Type</label>
-                        <select id="protocol_type">
-                            <option value="tcp">TCP</option>
-                            <option value="udp">UDP</option>
-                            <option value="icmp">ICMP</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label>Service</label>
-                        <select id="service">
-                            <option value="http">HTTP</option>
-                            <option value="ftp">FTP</option>
-                            <option value="smtp">SMTP</option>
-                            <option value="ssh">SSH</option>
-                            <option value="telnet">Telnet</option>
-                            <option value="private">Private</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label>Flag</label>
-                        <select id="flag">
-                            <option value="SF">SF</option>
-                            <option value="S0">S0</option>
-                            <option value="REJ">REJ</option>
-                            <option value="RSTO">RSTO</option>
-                            <option value="RSTR">RSTR</option>
-                            <option value="SH">SH</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label>Duration (seconds)</label>
-                        <input type="number" id="duration" value="0" min="0">
-                    </div>
-                    <div class="input-group">
-                        <label>Source Bytes</label>
-                        <input type="number" id="src_bytes" value="0" min="0">
-                    </div>
-                    <div class="input-group">
-                        <label>Destination Bytes</label>
-                        <input type="number" id="dst_bytes" value="0" min="0">
-                    </div>
-                </div>
-
-                <!-- Traffic Features -->
-                <div class="form-section">
-                    <h3>📡 Traffic Features</h3>
-                    <div class="input-group">
-                        <label>Count</label>
-                        <input type="number" id="count" value="0" min="0">
-                    </div>
-                    <div class="input-group">
-                        <label>Srv Count</label>
-                        <input type="number" id="srv_count" value="0" min="0">
-                    </div>
-                    <div class="input-group">
-                        <label>Serror Rate (0-1)</label>
-                        <input type="number" id="serror_rate" value="0" min="0" max="1" step="0.01">
-                    </div>
-                    <div class="input-group">
-                        <label>Rerror Rate (0-1)</label>
-                        <input type="number" id="rerror_rate" value="0" min="0" max="1" step="0.01">
-                    </div>
-                    <div class="input-group">
-                        <label>Same Srv Rate (0-1)</label>
-                        <input type="number" id="same_srv_rate" value="0" min="0" max="1" step="0.01">
-                    </div>
-                    <div class="input-group">
-                        <label>Diff Srv Rate (0-1)</label>
-                        <input type="number" id="diff_srv_rate" value="0" min="0" max="1" step="0.01">
-                    </div>
-                </div>
-
-                <!-- Host Features -->
-                <div class="form-section">
-                    <h3>🖥️ Host Features</h3>
-                    <div class="input-group">
-                        <label>Dst Host Count</label>
-                        <input type="number" id="dst_host_count" value="0" min="0">
-                    </div>
-                    <div class="input-group">
-                        <label>Dst Host Srv Count</label>
-                        <input type="number" id="dst_host_srv_count" value="0" min="0">
-                    </div>
-                    <div class="input-group">
-                        <label>Dst Host Same Srv Rate (0-1)</label>
-                        <input type="number" id="dst_host_same_srv_rate" value="0" min="0" max="1" step="0.01">
-                    </div>
-                    <div class="input-group">
-                        <label>Dst Host Diff Srv Rate (0-1)</label>
-                        <input type="number" id="dst_host_diff_srv_rate" value="0" min="0" max="1" step="0.01">
-                    </div>
-                    <div class="input-group">
-                        <label>Dst Host Serror Rate (0-1)</label>
-                        <input type="number" id="dst_host_serror_rate" value="0" min="0" max="1" step="0.01">
-                    </div>
-                    <div class="input-group">
-                        <label>Dst Host Rerror Rate (0-1)</label>
-                        <input type="number" id="dst_host_rerror_rate" value="0" min="0" max="1" step="0.01">
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Predict Button -->
-            <div class="predict-section">
-                <button class="predict-btn" onclick="predict()">
-                    🔍 Detect Intrusion
+            <div class="tab-selector">
+                <button class="tab-btn active" onclick="switchTab('manual')">
+                    ✍️ Manual Input
+                </button>
+                <button class="tab-btn" onclick="switchTab('csv')">
+                    📂 CSV Upload
                 </button>
             </div>
         </div>
 
-        <!-- Result Card -->
-        <div class="card result-card" id="result-card" style="display:none;">
-            <h2>🎯 Detection Result</h2>
-            <div class="result-box" id="result-box">
-                <div class="result-icon" id="result-icon"></div>
-                <div class="result-label" id="result-label"></div>
-                <div class="result-model" id="result-model"></div>
+        <!-- Manual Input Tab -->
+        <div id="tab-manual">
+            <div class="card">
+                <h2>📋 Network Connection Details</h2>
+                <p class="subtitle">Enter the network connection features below</p>
+
+                <div class="form-grid">
+
+                    <!-- Basic Features -->
+                    <div class="form-section">
+                        <h3>🔌 Basic Features</h3>
+                        <div class="input-group">
+                            <label>Protocol Type</label>
+                            <select id="protocol_type">
+                                <option value="tcp">TCP</option>
+                                <option value="udp">UDP</option>
+                                <option value="icmp">ICMP</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Service</label>
+                            <select id="service">
+                                <option value="http">HTTP</option>
+                                <option value="ftp">FTP</option>
+                                <option value="smtp">SMTP</option>
+                                <option value="ssh">SSH</option>
+                                <option value="telnet">Telnet</option>
+                                <option value="private">Private</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Flag</label>
+                            <select id="flag">
+                                <option value="SF">SF</option>
+                                <option value="S0">S0</option>
+                                <option value="REJ">REJ</option>
+                                <option value="RSTO">RSTO</option>
+                                <option value="RSTR">RSTR</option>
+                                <option value="SH">SH</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Duration (seconds)</label>
+                            <input type="number" id="duration" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label>Source Bytes</label>
+                            <input type="number" id="src_bytes" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label>Destination Bytes</label>
+                            <input type="number" id="dst_bytes" value="0" min="0">
+                        </div>
+                    </div>
+
+                    <!-- Traffic Features -->
+                    <div class="form-section">
+                        <h3>📡 Traffic Features</h3>
+                        <div class="input-group">
+                            <label>Count</label>
+                            <input type="number" id="count" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label>Srv Count</label>
+                            <input type="number" id="srv_count" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label>Serror Rate (0-1)</label>
+                            <input type="number" id="serror_rate" value="0" min="0" max="1" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label>Rerror Rate (0-1)</label>
+                            <input type="number" id="rerror_rate" value="0" min="0" max="1" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label>Same Srv Rate (0-1)</label>
+                            <input type="number" id="same_srv_rate" value="0" min="0" max="1" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label>Diff Srv Rate (0-1)</label>
+                            <input type="number" id="diff_srv_rate" value="0" min="0" max="1" step="0.01">
+                        </div>
+                    </div>
+
+                    <!-- Host Features -->
+                    <div class="form-section">
+                        <h3>🖥️ Host Features</h3>
+                        <div class="input-group">
+                            <label>Dst Host Count</label>
+                            <input type="number" id="dst_host_count" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label>Dst Host Srv Count</label>
+                            <input type="number" id="dst_host_srv_count" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label>Dst Host Same Srv Rate (0-1)</label>
+                            <input type="number" id="dst_host_same_srv_rate" value="0" min="0" max="1" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label>Dst Host Diff Srv Rate (0-1)</label>
+                            <input type="number" id="dst_host_diff_srv_rate" value="0" min="0" max="1" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label>Dst Host Serror Rate (0-1)</label>
+                            <input type="number" id="dst_host_serror_rate" value="0" min="0" max="1" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label>Dst Host Rerror Rate (0-1)</label>
+                            <input type="number" id="dst_host_rerror_rate" value="0" min="0" max="1" step="0.01">
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Predict Button -->
+                <div class="predict-section">
+                    <button class="predict-btn" onclick="predict()">
+                        🔍 Detect Intrusion
+                    </button>
+                </div>
+            </div>
+
+            <!-- Manual Result Card -->
+            <div class="card result-card" id="result-card" style="display:none;">
+                <h2>🎯 Detection Result</h2>
+                <div class="result-box" id="result-box">
+                    <div class="result-icon" id="result-icon"></div>
+                    <div class="result-label" id="result-label"></div>
+                    <div class="result-model" id="result-model"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CSV Upload Tab -->
+        <div id="tab-csv" style="display:none;">
+            <div class="card">
+                <h2>📂 Batch CSV Prediction</h2>
+                <p class="subtitle">Upload a CSV file with network connection records for batch prediction</p>
+
+                <div class="csv-upload-area" id="csv-upload-area">
+                    <div class="upload-icon">📁</div>
+                    <p>Drag & drop your CSV file here</p>
+                    <p class="upload-hint">or</p>
+                    <label class="upload-btn">
+                        Browse File
+                        <input type="file" id="csv-file" accept=".csv" style="display:none;">
+                    </label>
+                    <p class="upload-hint" id="file-name">No file selected</p>
+                </div>
+
+                <div class="predict-section">
+                    <button class="predict-btn" onclick="predictCSV()">
+                        🔍 Analyse CSV
+                    </button>
+                </div>
+            </div>
+
+            <!-- CSV Results -->
+            <div class="card" id="csv-result-card" style="display:none;">
+                <h2>📊 Batch Analysis Results</h2>
+
+                <!-- Summary -->
+                <div class="summary-grid" id="summary-grid"></div>
+
+                <!-- Results Table -->
+                <div class="table-wrapper">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Connection #</th>
+                                <th>Prediction</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-tbody"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
