@@ -1,0 +1,120 @@
+PHASE 1 — Machine Learning (Google Colab)
+Google Colab Notebook (.ipynb)
+│
+├── Purpose → Train the ML models
+├── Who uses it → Only you (developer)
+├── Lives in → Google Colab cloud
+└── What it does:
+    ├── Loads NSL-KDD dataset
+    ├── Performs EDA
+    ├── Preprocesses data
+    ├── Runs RFE feature selection
+    ├── Trains RF and SVM models
+    └── Saves everything as .pkl files
+	
+PHASE 2 — Backend (Python/Flask)
+app.py
+│
+├── Category → Backend / Server
+├── Language → Python
+├── Framework → Flask
+├── Who uses it → Nobody directly (runs on server)
+└── What it does:
+    ├── Loads all .pkl model files into memory
+    ├── Serves the website to browser
+    ├── Receives input from frontend
+    ├── Runs ML prediction
+    └── Returns result as JSON to frontend
+models/ folder
+│
+├── Category → ML Assets / Backend Data
+├── File type → .pkl (pickle files)
+└── Files:
+    ├── rf_all.pkl          → Random Forest (all features)
+    ├── rf_rfe.pkl          → Random Forest (72 RFE features) ← used in app
+    ├── svm_all.pkl         → SVM (all features)
+    ├── svm_rfe.pkl         → SVM (72 RFE features) ← used in app
+    ├── scaler.pkl          → MinMaxScaler (normalizer)
+    ├── rf_selected_features.pkl  → List of 72 RF features
+    ├── svm_selected_features.pkl → List of 72 SVM features
+    └── all_features.pkl    → Complete feature list (120 features)
+requirements.txt
+│
+├── Category → Configuration / Backend
+├── Who uses it → Render.com (during deployment)
+└── What it does:
+    └── Tells Render which Python libraries to install
+        flask, scikit-learn, pandas, numpy, gunicorn
+
+runtime.txt
+│
+├── Category → Configuration / Backend
+├── Who uses it → Render.com (during deployment)
+└── What it does:
+    └── Tells Render which Python version to use (3.11.9)
+
+Procfile
+│
+├── Category → Configuration / Backend
+├── Who uses it → Render.com (during deployment)
+└── What it does:
+    └── Tells Render how to START the app
+        "web: gunicorn app:app"
+PHASE 3 — Frontend (HTML/CSS/JS)
+templates/index.html
+│
+├── Category → Frontend / Structure
+├── Language → HTML + Jinja2 (Flask templating)
+├── Who uses it → User's browser
+└── What it does:
+    ├── Defines the structure of the webpage
+    ├── Contains the model selector (RF/SVM)
+    ├── Contains Manual Input form (18 fields)
+    ├── Contains CSV Upload section
+    ├── Contains Result display area
+    └── Links to style.css and script.js
+static/style.css
+│
+├── Category → Frontend / Design
+├── Language → CSS
+├── Who uses it → User's browser
+└── What it does:
+    ├── Makes everything look professional
+    ├── Controls colors, fonts, spacing
+    ├── Makes the layout responsive (mobile friendly)
+    ├── Styles the cards, buttons, tables
+    └── Color codes results (green=safe, red=threat)
+static/script.js
+│
+├── Category → Frontend / Logic
+├── Language → JavaScript
+├── Who uses it → User's browser
+└── What it does:
+    ├── Handles tab switching (Manual/CSV)
+    ├── Collects form data from user
+    ├── Sends data to Flask backend via HTTP
+    ├── Receives prediction result
+    ├── Displays result with colors and icons
+    └── Handles CSV drag and drop upload
+	
+	WORKFLOW
+	
+	User opens browser
+        ↓
+    Browser requests page from Render server
+        ↓
+    app.py serves index.html to browser
+        ↓
+    Browser loads style.css (design) + script.js (logic)
+        ↓
+    User fills form and clicks "Detect Intrusion"
+        ↓
+    script.js collects data → sends to app.py via HTTP POST
+        ↓
+    app.py loads pkl models → runs prediction
+        ↓
+    app.py sends result back as JSON
+        ↓
+    script.js receives result → updates webpage
+        ↓
+    User sees "DoS ATTACK DETECTED!" 
